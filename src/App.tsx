@@ -887,7 +887,7 @@ function ContactPage() {
     ].join("\n");
 
     setContactStatus("Opening your email app with the message ready to send.");
-    window.location.href = `mailto:hello@persismcgregorfoundation@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:persismcgregorfoundation@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }
 
   return (
@@ -903,7 +903,7 @@ function ContactPage() {
                 <strong className="text-slate-950">Phone:</strong> +256 785 693 373
               </p>
               <p>
-                <strong className="text-slate-950">Email:</strong> hello@persismcgregorfoundation@gmail.com
+                <strong className="text-slate-950">Email:</strong>persismcgregorfoundation@gmail.com
               </p>
               <p>
                 <strong className="text-slate-950">Location:</strong> Uganda village outreach network
@@ -913,7 +913,7 @@ function ContactPage() {
               <Button href="https://wa.me/256772689323?text=Hello%20PERSIS%20McGREGOR%20FOUNDATION" variant="primary">
                 WhatsApp Us
               </Button>
-              <Button href="mailto:hello@persismcgregorfoundation@gmail.com" variant="outlineDark">
+              <Button href="mailto:persismcgregorfoundation@gmail.com" variant="outlineDark">
                 Send Email
               </Button>
             </div>
@@ -992,7 +992,7 @@ function DonationPanel({ compact = false }: { compact?: boolean }) {
 
   const flutterwaveAmount = selected === "custom" ? Number(customAmount) || 10000 : Number(selected);
   const flutterwaveCustomer = {
-    email: donorEmail || "hello@persismcgregorfoundation@gmail.com",
+    email: donorEmail || "persismcgregorfoundation@gmail.com",
     phone_number: normalizeUgandaMobileNumber(mobileNumber) || "+256785693373",
     name: donorName || "Valued Supporter",
   };
