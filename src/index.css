@@ -46,9 +46,7 @@ h1, h2, h3, h4 { font-family: "Sora", "Manrope", "Inter", system-ui, sans-serif;
 .glass-app::before {
   content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background-image: linear-gradient(rgba(11,110,79,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(11,110,79,.035) 1px, transparent 1px);
-  background-size: 64px 64px;
-  -webkit-mask-image: linear-gradient(to bottom, black, transparent 78%);
-  mask-image: linear-gradient(to bottom, black, transparent 78%);
+  background-size: 64px 64px; mask-image: linear-gradient(to bottom, black, transparent 78%);
 }
 
 .glass-app.dark-theme {
