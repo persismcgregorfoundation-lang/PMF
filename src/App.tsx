@@ -1,6 +1,7 @@
 import { FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { PdfViewer } from "./components/PdfViewer";
+
+import { PdfViewer as PdfViewerComponent } from "./components/PdfViewer";
 
 const primary = "#0B6E4F";
 const accent = "#F59E0B";
@@ -104,7 +105,7 @@ const testimonials = [
 ];
 
 const team = [
-  { name: "Kaudha Persis Ruth", role: "Founder and family vision & Exacutive Director", image: "/images/ruth.jpg" },
+  { name: "Kaudha Persis Ruth", role: "Founder and family vision & Executive Director", image: "/images/ruth.jpg" },
   { name: "Cindy K.", role: "Village coordinator", image: "/images/cindy.jpg" },
   { name: "Cyril R.", role: "Treasurer", image: "/images/cyril.jpg" },
   { name: "Joshua M.", role: "Trustees and donor care", image: "/images/joshua.jpg" },
@@ -369,7 +370,7 @@ function HeroSection() {
       <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl items-center px-5 py-28 sm:px-8 lg:px-10">
         <motion.div className="hero-glass max-w-4xl rounded-[2rem] p-6 shadow-2xl sm:p-8 lg:p-10" initial={p ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: p ? 0 : 0.8, delay: 0.15, ease: "easeOut" }}>
           <p className="mb-5 text-lg font-black uppercase tracking-[0.32em] text-[#F59E0B] sm:text-xl">PERSIS McGREGOR FOUNDATION</p>
-          <h1 className="max-w-4xl text-5xl font-black leading-[0.95] tracking-[-0.06em] text-white sm:text-7xl lg:text-8xl">Changing Lives in <br /> Rural Uganda, In <br /> Diferent Families</h1>
+          <h1 className="max-w-4xl text-5xl font-black leading-[0.95] tracking-[-0.06em] text-white sm:text-7xl lg:text-8xl">Changing Lives in <br /> Rural Uganda, In <br /> Different Families</h1>
           <p className="mt-7 max-w-2xl text-xl font-medium leading-9 text-white/86 sm:text-2xl">Providing food, education, and hope to underserved communities.</p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <Button href={routeHref("donate")} variant="accent">Donate Now</Button>
@@ -667,7 +668,7 @@ function ReportsPage({ isDark }: { isDark: boolean }) {
 
           {/* Premium PDF Viewer Component */}
           <Reveal>
-            <PdfViewer 
+            <PdfViewerComponent 
               file={currentFile} 
               title={currentTitle} 
               isDark={isDark} 
@@ -812,25 +813,6 @@ function DonationPanel({ compact = false }: { compact?: boolean }) {
     return "";
   }
 
-  const flutterwaveAmount = selected === "custom" ? Number(customAmount) || 10000 : Number(selected);
-  const flutterwaveCustomer = {
-    email: donorEmail || foundationContact.email,
-    phone_number: normalizeUgandaMobileNumber(mobileNumber) || foundationContact.phoneInternational,
-    name: donorName || "Valued Supporter",
-  };
-
-  const mobileMoneyFlutterwaveConfig = {
-    public_key: "FLWPUBK_TEST-SANDBOXDEMOKEY-X",
-    tx_ref: `PMF-${Date.now()}`,
-    amount: flutterwaveAmount,
-    currency: "UGX",
-    customer: flutterwaveCustomer,
-    payment_options: "mobilemoneyuganda",
-    meta: { mobile_network: mobileProvider || "not selected", donor_mobile_number: normalizeUgandaMobileNumber(mobileNumber) || "not provided" },
-    customizations: { title: "PERSIS McGREGOR FOUNDATION", description: `${mobileProvider || "Mobile Money"} Donation`, logo: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=80&q=80" },
-  };
-
-
   function saveDonationLocally(method: string, amount: number) {
     try {
       const record = { amount, currency: "UGX", method, createdAt: new Date().toISOString() };
@@ -862,12 +844,9 @@ function DonationPanel({ compact = false }: { compact?: boolean }) {
     if (!mobileProvider || !normalized) { setShowMobileMoneyDetails(true); setMessage("Enter your Mobile Money number and choose MTN or Airtel before continuing."); return; }
     setMessage(`Opening ${mobileProvider} Mobile Money secure checkout for ${normalized}...`);
     saveDonationLocally(`${mobileProvider} Mobile Money`, amount);
-    try {
-    } catch {
-      const text = `Hello PERSIS McGREGOR FOUNDATION. I, ${donorName || "a supporter"}, would like to make a ${mobileProvider} Mobile Money donation of ${amount.toLocaleString()} UGX from ${normalized}. My email is ${donorEmail || "not provided"}.`;
-      window.open(`https://wa.me/${foundationContact.phoneInternational.replace("+", "")}?text=${encodeURIComponent(text)}`, "_blank");
-      setMessage("Redirected to WhatsApp for secure Mobile Money transfer.");
-    }
+    const text = `Hello PERSIS McGREGOR FOUNDATION. I, ${donorName || "a supporter"}, would like to make a ${mobileProvider} Mobile Money donation of ${amount.toLocaleString()} UGX from ${normalized}. My email is ${donorEmail || "not provided"}.`;
+    window.open(`https://wa.me/${foundationContact.phoneInternational.replace("+", "")}?text=${encodeURIComponent(text)}`, "_blank");
+    setMessage("Redirected to WhatsApp for secure Mobile Money transfer.");
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) { event.preventDefault(); startPayPalPayment(); }
@@ -927,7 +906,7 @@ function TestimonialSlider() {
   const t = testimonials[active];
   function prev() { setActive((c) => (c - 1 + testimonials.length) % testimonials.length); }
   function next() { setActive((c) => (c + 1) % testimonials.length); }
-  useEffect(() => { if (p) return; const id = setInterval(next, 5500); return () => clearInterval(id); }, [p]);
+  useEffect(() => { if (p) return; const id = setInterval(() => setActive((c) => (c + 1) % testimonials.length), 5500); return () => clearInterval(id); }, [p]);
   return (
     <div className="glass-card mt-12 rounded-[2rem] p-6 sm:p-10">
       <AnimatePresence mode="wait">

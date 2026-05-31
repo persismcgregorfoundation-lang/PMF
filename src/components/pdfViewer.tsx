@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import { motion, AnimatePresence } from 'framer-motion';
 
+
 // Configure the worker for react-pdf using the reliable CDN approach
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -10,6 +11,7 @@ interface PdfViewerProps {
   title?: string;
   isDark?: boolean;
 }
+
 
 export function PdfViewer({ file, title = "Document Viewer", isDark = false }: PdfViewerProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
@@ -71,9 +73,7 @@ export function PdfViewer({ file, title = "Document Viewer", isDark = false }: P
         console.error("Error attempting to enable fullscreen:", err);
       });
     } else {
-      document.exitFullscreen?.().then(() => {
-        setIsFullscreen(false);
-      });
+      document.exitFullscreen?.();
     }
   }
 
@@ -154,7 +154,7 @@ export function PdfViewer({ file, title = "Document Viewer", isDark = false }: P
             <div className="flex items-center rounded-lg bg-current/5 p-0.5">
               <ControlButton label="Zoom Out" onClick={handleZoomOut} disabled={scale <= 0.5 || isLoading}>
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7" />
                 </svg>
               </ControlButton>
               
@@ -181,7 +181,7 @@ export function PdfViewer({ file, title = "Document Viewer", isDark = false }: P
             <ControlButton label={isFullscreen ? "Exit Fullscreen" : "Fullscreen"} onClick={toggleFullscreen}>
               {isFullscreen ? (
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 9FC9 5 5 9 5 9m6 6H9v6m6-6v6h6" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 9V5m0 4H5m4 0L3 3m12 6h4m-4 0v-4m0 4l6-6M9 15v4m0-4H5m4 0l-6 6m12-6h4m-4 0v4m0-4l6 6" />
                 </svg>
               ) : (
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -363,3 +363,5 @@ function ControlButton({ children, label, onClick, disabled = false }: ControlBu
     </motion.button>
   );
 }
+
+export default PdfViewer;
