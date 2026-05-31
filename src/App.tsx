@@ -1,7 +1,6 @@
 import { FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
-import { PdfViewer as PdfViewerComponent } from "./components/PdfViewer";
 
 const primary = "#0B6E4F";
 const accent = "#F59E0B";
